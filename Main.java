@@ -29,9 +29,19 @@ public class Main {
        System.out.println(stream);
 
         list.stream().map(el -> el * 2);
-        List<Integer> collect = list2.stream().map(el -> el * 2).collect(Collectors.toList());
+        List<Integer> collect = list2
+                .stream()
+                .map(el -> el * 2)
+                .collect(Collectors.toList());
 
         System.out.println(collect);
+
+        List<Integer> collect1 = list
+                .stream()
+                .filter(el -> el % 2 == 0)
+                .map(el -> el * 2)
+                .collect(Collectors.toList());
+        System.out.println(collect1);
     }
 
     // stream 1.8 부터 나왔다.
