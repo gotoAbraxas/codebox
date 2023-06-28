@@ -78,6 +78,9 @@ public class MainController {
         request.setUid(uid);
         request.setId(id);
         request.setContent(content);
+        //받아오는건 한번에 리퀘스트로 받아오고
+        // 던저줄때는 dto를 따로 만들어서 거기에 추가한다음에 던저줌.
+
 
 
         int test = 0;
