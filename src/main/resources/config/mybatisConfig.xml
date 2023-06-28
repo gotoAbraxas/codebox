@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="com.naver.user.domain.entity.TodoJoinUser"
+                   alias="TodoJoinUser"/>
+<!--        별칭을 이걸로 쓰겠다-->
+        <typeAlias type="com.naver.user.domain.entity.User"
+                   alias="User"/>
+        <!--        별칭을 이걸로 쓰겠다-->
+
+
+    </typeAliases>
+
+
+
+</configuration>

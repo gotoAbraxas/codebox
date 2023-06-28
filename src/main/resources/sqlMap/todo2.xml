@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.naver.user.dao.TodoMapper2">
+    <select id="findAll222" resultType="TodoJoinUser">
+        select
+        todos.id ,todos.user_id,users.name,todos.create_at,todos.content,todos.checked,todos.heart
+        from todos
+        inner join users
+        on todos.user_id = users.id
+    </select>
+</mapper>
+
