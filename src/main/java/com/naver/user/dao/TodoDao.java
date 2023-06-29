@@ -46,6 +46,9 @@ public class TodoDao {
                 +"from todos "
                 +"inner join users on todos.user_id = users.id "
                 +"where content like ? ";
+        if(keyword!= null && !keyword.equals("")){
+
+        }
 
         List<TodoJoinUser> list = jdbcTemplate.query(sql,(rs, rowNum) -> new TodoJoinUser(
                 rs.getInt("id"),

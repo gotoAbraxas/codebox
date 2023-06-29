@@ -4,12 +4,67 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.naver.user.dao.TodoMapper2">
-    <select id="findAll222" resultType="TodoJoinUser">
+    <select id="findAll" resultType="TodoJoinUser">
         select
         todos.id ,todos.user_id,users.name,todos.create_at,todos.content,todos.checked,todos.heart
         from todos
         inner join users
         on todos.user_id = users.id
+
+
     </select>
+
+    <select id="findSomething" resultType="TodoJoinUser" parameterType="String">
+        select
+        todos.id ,todos.user_id ,users.name ,todos.create_at ,todos.content ,todos.checked ,todos.heart
+        from todos
+        inner join users
+        on todos.user_id = users.id
+        <if test="keyword != null">
+             content like #{keyword}
+        </if>
+
+<!--        <trim prefix="Where" prefixOverrides="and">-->
+<!--            <if test="keyword != null">-->
+<!--                 content like #{keyword}-->
+<!--            </if>-->
+<!--            <if test="keyword != null">-->
+<!--                todos.user_id like #{uid}-->
+<!--            </if>-->
+<!--        </trim>-->
+
+    </select>
+
+    <update id="update" >
+        update todos
+        set content = #{content}
+        where id = #{id} and user_id = #{uid}
+    </update>
+
+    <update id="like">
+        update todos
+        set heart = #{hearts}
+        where id = #{id}
+    </update>
+
+    <select id="selectlike" resultType="Hearts" >
+        select *
+        from
+        hearts
+        where uid = #{uid} and tid = #{tid}
+    </select>
+
+    <insert id="insertlike" useGeneratedKeys="true">
+        insert into
+        hearts(uid,tid)
+        values(#{uid},#{tid})
+    </insert>
+
+    <delete id="deletelike">
+        delete
+        from hearts
+        where uid = #{uid} and tid = #{tid}
+    </delete>
+
 </mapper>
 

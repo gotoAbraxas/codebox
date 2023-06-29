@@ -9,6 +9,8 @@
 <!--        별칭을 이걸로 쓰겠다-->
         <typeAlias type="com.naver.user.domain.entity.User"
                    alias="User"/>
+        <typeAlias type="com.naver.user.domain.dto.Hearts"
+                   alias="Hearts"/>
         <!--        별칭을 이걸로 쓰겠다-->
 
 

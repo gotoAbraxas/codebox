@@ -18,7 +18,7 @@
         from todos
         inner join users
         on todos.user_id = users.id
-        where content like #{keyword}
+        where content like #{keyword}w
     </select>
 
     <update id="update"  >

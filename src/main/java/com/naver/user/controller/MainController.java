@@ -1,5 +1,6 @@
 package com.naver.user.controller;
 
+import com.naver.user.domain.request.LikeRequest;
 import com.naver.user.domain.request.LoginRequest;
 import com.naver.user.domain.request.UpdateRequest;
 import com.naver.user.service.TodoService;
@@ -28,7 +29,8 @@ public class MainController {
 
 
         if(keyword == null) {
-            modelAndView.addObject("todolist", todoService.findAll());
+            modelAndView.addObject("todolist", todoService.findSomething(keyword));
+           // modelAndView.addObject("todolist", todoService.findAll());
         }else {
             modelAndView.addObject("todolist", todoService.findSomething(keyword));
         }
@@ -49,7 +51,6 @@ public class MainController {
         if(uname !=null && todoService.insert(content,uname) !=0 ){
             mav.setViewName("redirect:/main");
         }else{
-
             mav.setViewName("redirect:/main?err=not_insert");
             mav.addObject("err","not insert");
         }
@@ -72,6 +73,7 @@ public class MainController {
                                    @RequestParam("content") String content,
                                    HttpSession session,
                                    ModelAndView mav){
+
         UpdateRequest request = new UpdateRequest();
         Integer uid = (Integer) session.getAttribute("id");
 
@@ -91,6 +93,17 @@ public class MainController {
         }else {
             mav.setViewName("/todos/todoupdate");
         }
+        return mav;
+    }
+
+    @PostMapping("/todo/like")
+    public ModelAndView like(ModelAndView mav, HttpSession session, @ModelAttribute LikeRequest likeRequest){
+
+       int uid = (int) session.getAttribute("id");
+
+       todoService.like(likeRequest,uid);
+
+        mav.setViewName("redirect:/main");
         return mav;
     }
 }

@@ -1,8 +1,10 @@
 package com.naver.user.controller;
 
+import com.naver.user.domain.dto.UpdateUser;
 import com.naver.user.domain.entity.User;
 import com.naver.user.domain.request.LoginRequest;
 import com.naver.user.domain.request.SignupRequest;
+import com.naver.user.domain.request.UserUpdateRequest;
 import com.naver.user.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +18,17 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
 
-    private final UserService userService;
+    private UserService userService;
 
     // 왜 여기에 의문을 안가졌었지?
 
-    public UserController( UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/login")
 
-    public String getLoginPage(){
+    public String getLoginPage() {
 
         return "/user/login";
     }
@@ -39,9 +41,9 @@ public class UserController {
             , @ModelAttribute LoginRequest request// 이야.. 버그다 버그. 그런데 잘 안씀.
                                   // 이유는 id값은 고유해야하는데, setter로 값을 입력하기떄문
                                   // 데이터를 한묶음으로 옮기는 것.
-             , ModelAndView mav
-    , HttpSession session){
- // Http -> @RequestParam -> (ModelAttribute) -> 모델 엔 뷰
+            , ModelAndView mav
+            , HttpSession session) {
+        // Http -> @RequestParam -> (ModelAttribute) -> 모델 엔 뷰
 //        String id = res.getParameter("id");
 //        String pw = res.getParameter("pw");
 //        System.out.println(id + " " + pw);
@@ -51,12 +53,12 @@ public class UserController {
 
 //        if(idSave ==null) idSave = false;
         User login = userService.login(request);
-        if(login !=null){
-            session.setAttribute("id",login.getId());
-            session.setAttribute("uname",login.getUsername());
+        if (login != null) {
+            session.setAttribute("id", login.getId());
+            session.setAttribute("uname", login.getUsername());
 
             mav.setViewName("redirect:/main");
-        }else {
+        } else {
             mav.setViewName("redirect:/user/login");
 //            if(idSave){
 //                mav.addObject("id",id);
@@ -67,7 +69,7 @@ public class UserController {
     }
 
     @GetMapping("/signup")
-    public String getSignPage(){
+    public String getSignPage() {
         return "/user/signup";
     }
 
@@ -77,16 +79,47 @@ public class UserController {
             @RequestParam("username") String id,
             @RequestParam("password") String pw,
             @ModelAttribute SignupRequest signupRequest,
-            ModelAndView mav){
+            ModelAndView mav) {
 
 
         if (userService.signup(signupRequest)) {
             //로그인이 되면 그 id를 바로 세션에 넣어주면 된다.
             mav.setViewName("redirect:/user/login");
-        }else {
+        } else {
             mav.setViewName("redirect:/user/signup");
         }
         //mav.addObject("id",id); // url 에 얹어서 옮김 // 서블릿의 get방식과의 차이를 알면 좋음.
+        return mav;
+    }
+
+    @GetMapping("/update")
+    public ModelAndView showUpdatePage(ModelAndView mav) {
+
+        mav.setViewName("/user/update");
+
+        return mav;
+    }
+
+    @PostMapping("/update")
+    public ModelAndView updateData(
+            ModelAndView mav,@RequestParam("name") String name,
+            @ModelAttribute UserUpdateRequest updateRequest,
+            HttpSession session) {
+
+        int uid = (int) session.getAttribute("id");
+
+
+        UpdateUser user = updateRequest.makeDto(uid);
+
+
+        int fine = userService.update(user);
+
+        if(fine != 0){
+            mav.setViewName("redirect:/main");
+        }else {
+            mav.setViewName("redirect:/user/update");
+        }
+
         return mav;
     }
 }

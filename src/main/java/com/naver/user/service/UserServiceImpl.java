@@ -2,9 +2,12 @@ package com.naver.user.service;
 
 import com.naver.user.dao.UserDao;
 import com.naver.user.dao.UserMapper;
+import com.naver.user.dao.UserMapper2;
+import com.naver.user.domain.dto.UpdateUser;
 import com.naver.user.domain.entity.User;
 import com.naver.user.domain.request.LoginRequest;
 import com.naver.user.domain.request.SignupRequest;
+import com.naver.user.domain.request.UpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +23,7 @@ public class UserServiceImpl implements UserService{
 //        users.add(new User("id1","123"));
 //    }
     @Autowired
-    private UserMapper userMapper;
+    private UserMapper2 userMapper;
     @Autowired
     private UserDao userDao;
     @Override
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean signup(SignupRequest signupRequest) {
 
-        Integer signUpId = userMapper.signUp(signupRequest);
+        Integer signUpId = userMapper.signup(signupRequest);
         if(signUpId != null){
             return true;
         }
@@ -57,5 +60,9 @@ public class UserServiceImpl implements UserService{
 //            }
 //        } // 중복체크
         //return users.add(new User(id,pw));
+    }
+
+    public int update(UpdateUser user){
+        return userMapper.update(user);
     }
 }

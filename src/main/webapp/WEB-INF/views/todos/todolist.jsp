@@ -21,8 +21,18 @@
       <c:if test="${id eq todo.uid}">
       <td>
         <a href="/todo/update?todoid=${todo.id}"> 수정</a>
+      <%-- <a href="/todo/update/${todo.id}"> 수정</a>--%>
+      <%--        이런 식으로도 사용할 수 있음.--%>
       </td>
       </c:if>
+        <td>
+          <form method="post" action="/todo/like">
+            <input type="hidden" name="hearts" value="${todo.heart}">
+            <input type="hidden" name="tid" value="${todo.id}">
+            <input type="submit"  value="${todo.heart}">
+<%--         예제용 코드 --%>
+          </form>
+        </td>
     </tr>
   </c:forEach>
   <%--<%--%>
